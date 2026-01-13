@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moiré Pattern Studio</title>
+    <meta name="description"
+        content="Interactive Moiré pattern generator with SVG overlays, geometric shapes, and text effects">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Main Canvas Area -->
+        <div class="canvas-container">
+            <canvas id="moireCanvas"></canvas>
+            <div class="canvas-overlay">
+                <button class="toggle-panel-btn" id="togglePanel" title="Toggle Settings">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3" />
+                        <path
+                            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Settings Panel -->
+        <div class="settings-panel" id="settingsPanel">
+            <div class="panel-header">
+                <h1>Moiré Studio</h1>
+                <p class="subtitle">Pattern Generator</p>
+            </div>
+
+            <!-- Mode Selector -->
+            <div class="mode-selector">
+                <button class="mode-btn active" data-mode="svg">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" />
+                        <circle cx="12" cy="12" r="4" />
+                    </svg>
+                    <span>SVG Overlay</span>
+                </button>
+                <button class="mode-btn" data-mode="geometric">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="12 2 22 20 2 20" />
+                    </svg>
+                    <span>Geometric</span>
+                </button>
+                <button class="mode-btn" data-mode="text">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="4 7 4 4 20 4 20 7" />
+                        <line x1="9" y1="20" x2="15" y2="20" />
+                        <line x1="12" y1="4" x2="12" y2="20" />
+                    </svg>
+                    <span>Text Moiré</span>
+                </button>
+                <button class="mode-btn" data-mode="line">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="4" y1="4" x2="4" y2="20" />
+                        <line x1="8" y1="4" x2="8" y2="20" />
+                        <line x1="12" y1="4" x2="12" y2="20" />
+                        <line x1="16" y1="4" x2="16" y2="20" />
+                        <line x1="20" y1="4" x2="20" y2="20" />
+                    </svg>
+                    <span>Line Moiré</span>
+                </button>
+                <button class="mode-btn" data-mode="shape">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <text x="4" y="16" font-size="14" fill="currentColor" stroke="none">Ab</text>
+                        <line x1="2" y1="20" x2="22" y2="20" />
+                        <line x1="2" y1="22" x2="22" y2="22" />
+                    </svg>
+                    <span>Shape Moiré</span>
+                </button>
+            </div>
+
+            <div class="panel-content">
+                <!-- SVG Mode Controls -->
+                <div class="mode-controls" id="svgControls">
+                    <div class="section">
+                        <div class="section-header">
+                            <h3>Layer 1 (Base)</h3>
+                        </div>
+                        <div class="control-group">
+                            <label>Pattern</label>
+                            <select id="svg1Pattern" class="styled-select">
+                                <option value="circles">Concentric Circles</option>
+                                <option value="spiral">Spiral</option>
+                                <option value="radial">Radial Lines</option>
+                                <option value="grid">Grid</option>
+                                <option value="hexagon">Hexagonal</option>
+                                <option value="waves">Waves</option>
+                                <option value="checkers">Op-Art Checkers</option>
+                                <option value="fibonacci">Fibonacci Spiral</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label>Scale <span class="value-display" id="svg1ScaleValue">100%</span></label>
+                            <input type="range" id="svg1Scale" min="20" max="300" value="100" class="styled-slider">
+                        </div>
+                        <div class="control-group">
+                            <label>Rotation <span class="value-display" id="svg1RotationValue">0°</span></label>
+                            <input type="range" id="svg1Rotation" min="0" max="360" value="0" class="styled-slider">
+                        </div>
+                        <div class="control-group">
+                            <label>Opacity <span class="value-display" id="svg1OpacityValue">100%</span></label>
+                            <input type="range" id="svg1Opacity" min="0" max="100" value="100" class="styled-slider">
+                        </div>
+                        <div class="control-group">
+                            <label>Stroke Width <span class="value-display" id="svg1StrokeWidthValue">2px</span></label>
+                            <input type="range" id="svg1StrokeWidth" min="1" max="20" value="2" class="styled-slider">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-header">
+                            <h3>Layer 2 (Overlay)</h3>
+                        </div>
+                        <div class="control-group">
+                            <label>Pattern</label>
+                            <select id="svg2Pattern" class="styled-select">
+                                <option value="circles">Concentric Circles</option>
+                                <option value="spiral" selected>Spiral</option>
+                                <option value="radial">Radial Lines</option>
+                                <option value="grid">Grid</option>
+                                <option value="hexagon">Hexagonal</option>
+                                <option value="waves">Waves</option>
+                                <option value="checkers">Op-Art Checkers</option>
+                                <option value="fibonacci">Fibonacci Spiral</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label>Scale <span class="value-display" id="svg2ScaleValue">100%</span></label>
+                            <input type="range" id="svg2Scale" min="20" max="300" value="100" class="styled-slider">
+                        </div>
+                        <div class="control-group">
+                            <label>Rotation <span class="value-display" id="svg2RotationValue">0°</span></label>
+                            <input type="range" id="svg2Rotation" min="0" max="360" value="0" class="styled-slider">
+                        </div>
+                        <div class="control-group">
+                            <label>Rotation Speed <span class="value-display" id="svg2SpeedValue">1.0</span></label>
+                            <input type="range" id="svg2Speed" min="0" max="50" value="10" step="0.01"
+                                class="styled-slider">
+                        </div>
+                        <div class="control-group">
+                            <label>Opacity <span class="value-display" id="svg2OpacityValue">100%</span></label>
+                            <input type="range" id="svg2Opacity" min="0" max="100" value="100" class="styled-slider">
+                        </div>
+                        <div class="control-group">
+                            <label>Stroke Width <span class="value-display" id="svg2StrokeWidthValue">2px</span></label>
+                            <input type="range" id="svg2StrokeWidth" min="1" max="20" value="2" class="styled-slider">
+                        </div>
+                        <div class="control-group">
+                            <label>Offset X <span class="value-display" id="svg2OffsetXValue">0</span></label>
+                            <input type="range" id="svg2OffsetX" min="-200" max="200" value="0" class="styled-slider">
+                        </div>
+                        <div class="control-group">
+                            <label>Offset Y <span class="value-display" id="svg2OffsetYValue">0</span></label>
+                            <input type="range" id="svg2OffsetY" min="-200" max="200" value="0" class="styled-slider">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Geometric Mode Controls -->
+                <div class="mode-controls hidden" id="geometricControls">
+                    <div class="section">
+                        <div class="section-header">
+                            <h3>Shape Settings</h3>
+                        </div>
+                        <div class="control-group">
+                            <label>Shape Type</label>
+                            <select id="geoShape" class="styled-select">
+                                <option value="circles">Concentric Circles</option>
+                                <option value="radialLines">Radial Lines</option>
+                                <option value="rectangularGrid">Rectangular Grid</option>
+                                <option value="hexGrid">Hexagonal Grid</option>
+                                <option value="triangles">Triangle Pattern</option>
+                                <option value="dots">Dot Matrix</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label>Line Count <span class="value-display" id="geoCountValue">40</span></label>
+                            <input type="range" id="geoCount" min="5" max="100" value="40" class="styled-slider">
+                        </div>
+                        <div class="control-group">
+                            <label>Line Thickness <span class="value-display" id="geoThicknessValue">2px</span></label>
+                            <input type="range" id="geoThickness" min="1" max="10" value="2" class="styled-slider">
+                        </div>
+                        <div class="control-group">
+                            <label>Spacing <span class="value-display" id="geoSpacingValue">15px</span></label>
+                            <input type="range" id="geoSpacing" min="5" max="50" value="15" class="styled-slider">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-header">
+                            <h3>Overlay Layer</h3>
+                        </div>
+                        <div class="control-group">
+                            <label>Overlay Shape</label>
+                            <select id="geoShape2" class="styled-select">
+                                <option value="circles" selected>Concentric Circles</option>
+                                <option value="radialLines">Radial Lines</option>
+                                <option value="rectangularGrid">Rectangular Grid</option>
+                                <option value="hexGrid">Hexagonal Grid</option>
+                                <option value="triangles">Triangle Pattern</option>
+                                <option value="dots">Dot Matrix</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label>Scale Difference <span class="value-display" id="geoScaleDiffValue">5%</span></label>
+                            <input type="range" id="geoScaleDiff" min="-20" max="20" value="5" class="styled-slider">
+                        </div>
+                        <div class="control-group">
+                            <label>Offset X <span class="value-display" id="geoOffsetXValue">0</span></label>
+                            <input type="range" id="geoOffsetX" min="-100" max="100" value="0" class="styled-slider">
+                        </div>
+                        <div class="control-group">
+                            <label>Offset Y <span class="value-display" id="geoOffsetYValue">0</span></label>
+                            <input type="range" id="geoOffsetY" min="-100" max="100" value="0" class="styled-slider">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text Mode Controls -->
+                <div class="mode-controls hidden" id="textControls">
+                    <div class="section">
+                        <div class="section-header">
+                            <h3>Text Settings</h3>
+                        </div>
+                        <div class="control-group">
+                            <label>Text</label>
+                            <input type="text" id="textInput" class="styled-input" value="MOIRÉ"
+                                placeholder="Enter text...">
+                        </div>
+                        <div class="control-group">
+                            <label>Font</label>
+                            <select id="textFont" class="styled-select">
+                                <option value="Inter">Inter</option>
+                                <option value="Arial Black">Arial Black</option>
+                                <option value="Impact">Impact</option>
+                                <option value="Georgia">Georgia</option>
+                                <option value="Courier New">Courier New</option>
+                                <option value="Times New Roman">Times New Roman</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label>Font Size <span class="value-display" id="textSizeValue">80px</span></label>
+                            <input type="range" id="textSize" min="20" max="200" value="80" class="styled-slider">
+                        </div>
+                        <div class="control-group">
+                            <label>Letter Spacing <span class="value-display" id="textSpacingValue">0px</span></label>
+                            <input type="range" id="textSpacing" min="-20" max="50" value="0" class="styled-slider">
+                        </div>
+                        <div class="control-group">
+                            <label>Repeat X <span class="value-display" id="textRepeatXValue">5</span></label>
+                            <input type="range" id="textRepeatX" min="1" max="20" value="5" class="styled-slider">
+                        </div>
+                        <div class="control-group">
+                            <label>Repeat Y <span class="value-display" id="textRepeatYValue">5</span></label>
+                            <input type="range" id="textRepeatY" min="1" max="20" value="5" class="styled-slider">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-header">
+                            <h3>Overlay</h3>
+                        </div>
+                        <div class="control-group">
+                            <label>Overlay Type</label>
+                            <select id="textOverlay" class="styled-select">
+                                <option value="text" selected>Same Text</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label>Overlay Spacing <span class="value-display"
+                                    id="textOverlaySpacingValue">8px</span></label>
+                            <input type="range" id="textOverlaySpacing" min="2" max="30" value="8"
+                                class="styled-slider">
+                        </div>
+                        <div class="control-group">
+                            <label>Offset X <span class="value-display" id="textOffsetXValue">0</span></label>
+                            <input type="range" id="textOffsetX" min="-100" max="100" value="0" class="styled-slider">
+                        </div>
+                        <div class="control-group">
+                            <label>Offset Y <span class="value-display" id="textOffsetYValue">0</span></label>
+                            <input type="range" id="textOffsetY" min="-100" max="100" value="0" class="styled-slider">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Line Moiré Mode Controls -->
+                <div class="mode-controls hidden" id="lineControls">
+                    <div class="section">
+                        <div class="section-header">
+                            <h3>Base Layer</h3>
+                        </div>
+                        <div class="control-group">
+                            <label>Period <span class="value-display" id="linePeriodBaseValue">8px</span></label>
+                            <input type="range" id="linePeriodBase" min="2" max="40" value="8" class="styled-slider">
+                        </div>
+                        <div class="control-group">
+                            <label>Line Thickness <span class="value-display"
+                                    id="lineThicknessBaseValue">3px</span></label>
+                            <input type="range" id="lineThicknessBase" min="1" max="20" value="3" class="styled-slider">
+                        </div>
+                        <div class="control-group">
+                            <label>Angle <span class="value-display" id="lineAngleBaseValue">0°</span></label>
+                            <input type="range" id="lineAngleBase" min="-45" max="45" value="0" class="styled-slider">
+                        </div>
+                        <div class="control-group">
+                            <label>Opacity <span class="value-display" id="lineOpacityBaseValue">100%</span></label>
+                            <input type="range" id="lineOpacityBase" min="0" max="100" value="100"
+                                class="styled-slider">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-header">
+                            <h3>Revealing Layer</h3>
+                        </div>
+                        <div class="control-group">
+                            <label>Period <span class="value-display" id="linePeriodRevealValue">9px</span></label>
+                            <input type="range" id="linePeriodReveal" min="2" max="40" value="9" class="styled-slider">
+                        </div>
+                        <div class="control-group">
+                            <label>Line Thickness <span class="value-display"
+                                    id="lineThicknessRevealValue">3px</span></label>
+                            <input type="range" id="lineThicknessReveal" min="1" max="20" value="3"
+                                class="styled-slider">
+                        </div>
+                        <div class="control-group">
+                            <label>Angle <span class="value-display" id="lineAngleRevealValue">0°</span></label>
+                            <input type="range" id="lineAngleReveal" min="-45" max="45" value="0" class="styled-slider">
+                        </div>
+                        <div class="control-group">
+                            <label>Opacity <span class="value-display" id="lineOpacityRevealValue">100%</span></label>
+                            <input type="range" id="lineOpacityReveal" min="0" max="100" value="100"
+                                class="styled-slider">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-header">
+                            <h3>Curve Effect</h3>
+                        </div>
+                        <div class="control-group toggle-group">
+                            <label>
+                                <input type="checkbox" id="lineCurveEnabled">
+                                <span class="toggle-switch"></span>
+                                Enable Wave Curves
+                            </label>
+                        </div>
+                        <div class="control-group">
+                            <label>Wave Amplitude <span class="value-display"
+                                    id="lineCurveAmplitudeValue">15°</span></label>
+                            <input type="range" id="lineCurveAmplitude" min="1" max="40" value="15"
+                                class="styled-slider">
+                        </div>
+                        <div class="control-group">
+                            <label>Wave Frequency <span class="value-display"
+                                    id="lineCurveFrequencyValue">2</span></label>
+                            <input type="range" id="lineCurveFrequency" min="1" max="10" value="2"
+                                class="styled-slider">
+                        </div>
+                        <div class="control-group">
+                            <label>Wave Speed <span class="value-display" id="lineCurveSpeedValue">1.0</span></label>
+                            <input type="range" id="lineCurveSpeed" min="0" max="50" value="10" step="0.01"
+                                class="styled-slider">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shape Moiré Mode Controls -->
+                <div class="mode-controls hidden" id="shapeControls">
+                    <div class="section">
+                        <div class="section-header">
+                            <h3>Hidden Shape (Base Layer)</h3>
+                        </div>
+                        <div class="control-group">
+                            <label>Text to Reveal</label>
+                            <input type="text" id="shapeText" class="styled-input" value="HELLO"
+                                placeholder="Enter text...">
+                        </div>
+                        <div class="control-group">
+                            <label>Font</label>
+                            <select id="shapeFont" class="styled-select">
+                                <option value="Arial Black">Arial Black</option>
+                                <option value="Impact">Impact</option>
+                                <option value="Inter">Inter</option>
+                                <option value="Georgia">Georgia</option>
+                                <option value="Courier New">Courier New</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label>Font Size <span class="value-display" id="shapeFontSizeValue">60px</span></label>
+                            <input type="range" id="shapeFontSize" min="20" max="200" value="60" class="styled-slider">
+                        </div>
+                        <div class="control-group">
+                            <label>Base Period <span class="value-display" id="shapePeriodBaseValue">8px</span></label>
+                            <input type="range" id="shapePeriodBase" min="2" max="30" value="8" class="styled-slider">
+                        </div>
+                        <div class="control-group">
+                            <label>Vertical Compression <span class="value-display"
+                                    id="shapeCompressionValue">8x</span></label>
+                            <input type="range" id="shapeCompression" min="2" max="20" value="8" class="styled-slider">
+                        </div>
+                        <div class="control-group">
+                            <label>Horizontal Repeat <span class="value-display" id="shapeRepeatXValue">3</span></label>
+                            <input type="range" id="shapeRepeatX" min="1" max="10" value="3" class="styled-slider">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-header">
+                            <h3>Revealing Layer</h3>
+                        </div>
+                        <div class="control-group">
+                            <label>Reveal Period <span class="value-display"
+                                    id="shapePeriodRevealValue">9px</span></label>
+                            <input type="range" id="shapePeriodReveal" min="2" max="30" value="9" class="styled-slider">
+                        </div>
+                        <div class="control-group">
+                            <label>Slit Width <span class="value-display" id="shapeSlitWidthValue">2px</span></label>
+                            <input type="range" id="shapeSlitWidth" min="1" max="10" value="2" class="styled-slider">
+                        </div>
+                        <div class="control-group">
+                            <label>Opacity <span class="value-display" id="shapeRevealOpacityValue">100%</span></label>
+                            <input type="range" id="shapeRevealOpacity" min="0" max="100" value="100"
+                                class="styled-slider">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Animation Controls -->
+                <div class="section">
+                    <div class="section-header">
+                        <h3>Movement Animation</h3>
+                    </div>
+                    <div class="control-group">
+                        <label>Movement Type</label>
+                        <select id="movementType" class="styled-select">
+                            <option value="rotation">Rotation Only</option>
+                            <option value="swing">Swing (Oscillate)</option>
+                            <option value="linear">Linear Movement</option>
+                            <option value="circular">Circular Path</option>
+                            <option value="lissajous">Lissajous Curve</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label>Move Axis</label>
+                        <select id="moveAxis" class="styled-select">
+                            <option value="both">Both X & Y</option>
+                            <option value="x">X Only</option>
+                            <option value="y">Y Only</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label>Swing X Distance <span class="value-display" id="swingXValue">50px</span></label>
+                        <input type="range" id="swingX" min="0" max="300" value="50" class="styled-slider">
+                    </div>
+                    <div class="control-group">
+                        <label>Swing Y Distance <span class="value-display" id="swingYValue">50px</span></label>
+                        <input type="range" id="swingY" min="0" max="300" value="50" class="styled-slider">
+                    </div>
+                    <div class="control-group">
+                        <label>Movement Speed <span class="value-display" id="moveSpeedValue">1.0</span></label>
+                        <input type="range" id="moveSpeed" min="0" max="100" value="10" step="0.01"
+                            class="styled-slider">
+                    </div>
+                    <div class="control-group">
+                        <label>X/Y Speed Ratio <span class="value-display" id="xyRatioValue">1.0</span></label>
+                        <input type="range" id="xyRatio" min="0.01" max="30" value="10" step="0.01"
+                            class="styled-slider">
+                    </div>
+                </div>
+
+                <!-- Scale Animation -->
+                <div class="section">
+                    <div class="section-header">
+                        <h3>Scale Animation</h3>
+                    </div>
+                    <div class="control-group toggle-group">
+                        <label>
+                            <input type="checkbox" id="scaleAnimEnabled">
+                            <span class="toggle-switch"></span>
+                            Animate Scale
+                        </label>
+                    </div>
+                    <div class="control-group">
+                        <label>Scale Min <span class="value-display" id="scaleMinValue">80%</span></label>
+                        <input type="range" id="scaleMin" min="10" max="100" value="80" class="styled-slider">
+                    </div>
+                    <div class="control-group">
+                        <label>Scale Max <span class="value-display" id="scaleMaxValue">120%</span></label>
+                        <input type="range" id="scaleMax" min="100" max="300" value="120" class="styled-slider">
+                    </div>
+                    <div class="control-group">
+                        <label>Scale Speed <span class="value-display" id="scaleSpeedValue">1.0</span></label>
+                        <input type="range" id="scaleSpeed" min="0" max="50" value="10" step="0.01"
+                            class="styled-slider">
+                    </div>
+                </div>
+
+                <!-- Layer Clipping -->
+                <div class="section">
+                    <div class="section-header">
+                        <h3>Layer Clipping</h3>
+                    </div>
+                    <div class="control-group">
+                        <label>Base Layer Cutoff <span class="value-display" id="cutoffBaseValue">100%</span></label>
+                        <input type="range" id="cutoffBase" min="0" max="100" value="100" class="styled-slider">
+                    </div>
+                    <div class="control-group">
+                        <label>Reveal Layer Cutoff <span class="value-display"
+                                id="cutoffRevealValue">100%</span></label>
+                        <input type="range" id="cutoffReveal" min="0" max="100" value="100" class="styled-slider">
+                    </div>
+                </div>
+
+                <!-- Global Controls -->
+                <div class="section global-controls">
+                    <div class="section-header">
+                        <h3>Global Settings</h3>
+                    </div>
+                    <div class="control-group">
+                        <label>Foreground Color</label>
+                        <input type="color" id="foregroundColor" class="styled-color" value="#ffffff">
+                    </div>
+                    <div class="control-group">
+                        <label>Background Color</label>
+                        <input type="color" id="backgroundColor" class="styled-color" value="#0a0a0f">
+                    </div>
+                    <div class="control-group">
+                        <label>Blend Mode</label>
+                        <select id="blendMode" class="styled-select">
+                            <option value="source-over">Normal</option>
+                            <option value="multiply">Multiply</option>
+                            <option value="screen">Screen</option>
+                            <option value="overlay">Overlay</option>
+                            <option value="difference" selected>Difference</option>
+                            <option value="exclusion">Exclusion</option>
+                            <option value="xor">XOR</option>
+                        </select>
+                    </div>
+                    <div class="control-group toggle-group">
+                        <label>
+                            <input type="checkbox" id="animationEnabled" checked>
+                            <span class="toggle-switch"></span>
+                            Animation
+                        </label>
+                    </div>
+                    <div class="control-group toggle-group">
+                        <label>
+                            <input type="checkbox" id="reverseDirection">
+                            <span class="toggle-switch"></span>
+                            Reverse Direction
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Presets -->
+                <div class="section">
+                    <div class="section-header">
+                        <h3>Presets</h3>
+                    </div>
+                    <div class="presets-grid">
+                        <button class="preset-btn" data-preset="hypnotic">Hypnotic</button>
+                        <button class="preset-btn" data-preset="optical">Op-Art</button>
+                        <button class="preset-btn" data-preset="zen">Zen</button>
+                        <button class="preset-btn" data-preset="chaos">Chaos</button>
+                        <button class="preset-btn" data-preset="minimal">Minimal</button>
+                        <button class="preset-btn" data-preset="psychedelic">Psychedelic</button>
+                        <button class="preset-btn" data-preset="lineSpeedup">Line Speedup</button>
+                        <button class="preset-btn" data-preset="lineWave">Line Wave</button>
+                        <button class="preset-btn" data-preset="lineTilt">Line Tilt</button>
+                        <button class="preset-btn" data-preset="shapeMagnify">Shape Magnify</button>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="section actions-section">
+                    <button class="action-btn primary" id="exportPng">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                            <polyline points="7 10 12 15 17 10" />
+                            <line x1="12" y1="15" x2="12" y2="3" />
+                        </svg>
+                        Export PNG
+                    </button>
+                    <button class="action-btn" id="resetSettings">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                            <path d="M3 3v5h5" />
+                        </svg>
+                        Reset
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
