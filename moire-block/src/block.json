@@ -1,0 +1,336 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "moire-block/moire-group",
+    "version": "1.0.0",
+    "title": "Moiré Group",
+    "category": "design",
+    "icon": "art",
+    "description": "A group block with animated Moiré pattern background",
+    "keywords": [
+        "moire",
+        "pattern",
+        "group",
+        "container",
+        "animation"
+    ],
+    "textdomain": "moire-block",
+    "supports": {
+        "align": [
+            "wide",
+            "full"
+        ],
+        "anchor": true,
+        "html": false,
+        "spacing": {
+            "padding": true,
+            "margin": true
+        }
+    },
+    "attributes": {
+        "aspectRatio": {
+            "type": "string",
+            "default": "1"
+        },
+        "mode": {
+            "type": "string",
+            "default": "svg"
+        },
+        "svgPattern1": {
+            "type": "string",
+            "default": "circles"
+        },
+        "svgScale1": {
+            "type": "number",
+            "default": 100
+        },
+        "svgRotation1": {
+            "type": "number",
+            "default": 0
+        },
+        "svgOpacity1": {
+            "type": "number",
+            "default": 100
+        },
+        "svgStrokeWidth1": {
+            "type": "number",
+            "default": 2
+        },
+        "svgCustom1": {
+            "type": "string",
+            "default": ""
+        },
+        "svgPattern2": {
+            "type": "string",
+            "default": "spiral"
+        },
+        "svgScale2": {
+            "type": "number",
+            "default": 100
+        },
+        "svgRotation2": {
+            "type": "number",
+            "default": 0
+        },
+        "svgSpeed2": {
+            "type": "number",
+            "default": 10
+        },
+        "svgOpacity2": {
+            "type": "number",
+            "default": 100
+        },
+        "svgStrokeWidth2": {
+            "type": "number",
+            "default": 2
+        },
+        "svgOffsetX2": {
+            "type": "number",
+            "default": 0
+        },
+        "svgOffsetY2": {
+            "type": "number",
+            "default": 0
+        },
+        "svgCustom2": {
+            "type": "string",
+            "default": ""
+        },
+        "geoShape1": {
+            "type": "string",
+            "default": "circles"
+        },
+        "geoShape2": {
+            "type": "string",
+            "default": "circles"
+        },
+        "geoCount": {
+            "type": "number",
+            "default": 40
+        },
+        "geoThickness": {
+            "type": "number",
+            "default": 2
+        },
+        "geoSpacing": {
+            "type": "number",
+            "default": 15
+        },
+        "geoScaleDiff": {
+            "type": "number",
+            "default": 5
+        },
+        "geoOffsetX": {
+            "type": "number",
+            "default": 0
+        },
+        "geoOffsetY": {
+            "type": "number",
+            "default": 0
+        },
+        "textContent": {
+            "type": "string",
+            "default": "MOIRÉ"
+        },
+        "textFont": {
+            "type": "string",
+            "default": "Inter"
+        },
+        "textSize": {
+            "type": "number",
+            "default": 80
+        },
+        "textSpacing": {
+            "type": "number",
+            "default": 0
+        },
+        "textRepeatX": {
+            "type": "number",
+            "default": 5
+        },
+        "textRepeatY": {
+            "type": "number",
+            "default": 5
+        },
+        "textOverlay": {
+            "type": "string",
+            "default": "text"
+        },
+        "textOverlaySpacing": {
+            "type": "number",
+            "default": 8
+        },
+        "textOffsetX": {
+            "type": "number",
+            "default": 0
+        },
+        "textOffsetY": {
+            "type": "number",
+            "default": 0
+        },
+        "textRotationSpeed": {
+            "type": "number",
+            "default": 5
+        },
+        "linePeriodBase": {
+            "type": "number",
+            "default": 8
+        },
+        "lineThicknessBase": {
+            "type": "number",
+            "default": 3
+        },
+        "lineAngleBase": {
+            "type": "number",
+            "default": 0
+        },
+        "lineOpacityBase": {
+            "type": "number",
+            "default": 100
+        },
+        "linePeriodReveal": {
+            "type": "number",
+            "default": 9
+        },
+        "lineThicknessReveal": {
+            "type": "number",
+            "default": 3
+        },
+        "lineAngleReveal": {
+            "type": "number",
+            "default": 0
+        },
+        "lineOpacityReveal": {
+            "type": "number",
+            "default": 100
+        },
+        "lineCurveEnabled": {
+            "type": "boolean",
+            "default": false
+        },
+        "lineCurveAmplitude": {
+            "type": "number",
+            "default": 15
+        },
+        "lineCurveFrequency": {
+            "type": "number",
+            "default": 2
+        },
+        "lineCurveSpeed": {
+            "type": "number",
+            "default": 10
+        },
+        "shapeText": {
+            "type": "string",
+            "default": "HELLO"
+        },
+        "shapeFont": {
+            "type": "string",
+            "default": "Arial Black"
+        },
+        "shapeFontSize": {
+            "type": "number",
+            "default": 60
+        },
+        "shapePeriodBase": {
+            "type": "number",
+            "default": 8
+        },
+        "shapeCompression": {
+            "type": "number",
+            "default": 8
+        },
+        "shapeRepeatX": {
+            "type": "number",
+            "default": 3
+        },
+        "shapePeriodReveal": {
+            "type": "number",
+            "default": 9
+        },
+        "shapeSlitWidth": {
+            "type": "number",
+            "default": 2
+        },
+        "shapeRevealOpacity": {
+            "type": "number",
+            "default": 100
+        },
+        "movementType": {
+            "type": "string",
+            "default": "rotation"
+        },
+        "moveAxis": {
+            "type": "string",
+            "default": "both"
+        },
+        "swingX": {
+            "type": "number",
+            "default": 50
+        },
+        "swingY": {
+            "type": "number",
+            "default": 50
+        },
+        "moveSpeed": {
+            "type": "number",
+            "default": 10
+        },
+        "xyRatio": {
+            "type": "number",
+            "default": 10
+        },
+        "scaleAnimEnabled": {
+            "type": "boolean",
+            "default": false
+        },
+        "scaleMin": {
+            "type": "number",
+            "default": 80
+        },
+        "scaleMax": {
+            "type": "number",
+            "default": 120
+        },
+        "scaleSpeed": {
+            "type": "number",
+            "default": 10
+        },
+        "cutoffBase": {
+            "type": "number",
+            "default": 100
+        },
+        "cutoffReveal": {
+            "type": "number",
+            "default": 100
+        },
+        "foregroundColor": {
+            "type": "string",
+            "default": "#ffffff"
+        },
+        "backgroundColor": {
+            "type": "string",
+            "default": "#0a0a0f"
+        },
+        "blendMode": {
+            "type": "string",
+            "default": "difference"
+        },
+        "animationEnabled": {
+            "type": "boolean",
+            "default": true
+        },
+        "reverseDirection": {
+            "type": "boolean",
+            "default": false
+        },
+        "canvasRotation": {
+            "type": "number",
+            "default": 0
+        }
+    },
+    "editorScript": "file:./index.js",
+    "editorStyle": "file:./index.css",
+    "style": "file:./style-index.css",
+    "viewScript": "file:./view.js"
+}

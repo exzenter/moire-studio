@@ -1,0 +1,34 @@
+// Editor styles for Moiré Block
+
+.wp-block-moire-block-moire-group {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 4px;
+
+    // Canvas background
+    canvas {
+        display: block;
+    }
+
+    // Content overlay
+    .moire-block-content,
+    .block-editor-inner-blocks {
+        position: relative;
+        z-index: 1;
+        min-height: 100px;
+        padding: 20px;
+    }
+
+    // Placeholder styles for empty block
+    .block-editor-inner-blocks .block-editor-block-list__layout {
+        min-height: 80px;
+    }
+}
+
+// Inspector panel improvements
+.moire-block-presets {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}

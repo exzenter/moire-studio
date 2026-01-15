@@ -1,0 +1,14 @@
+{
+    "name": "moire-block",
+    "version": "1.0.0",
+    "description": "Moiré Pattern Block for WordPress",
+    "scripts": {
+        "build": "wp-scripts build",
+        "start": "wp-scripts start",
+        "format": "wp-scripts format",
+        "lint:js": "wp-scripts lint-js"
+    },
+    "devDependencies": {
+        "@wordpress/scripts": "^27.0.0"
+    }
+}
