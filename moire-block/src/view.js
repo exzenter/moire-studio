@@ -173,7 +173,8 @@ class MoireCanvas {
         ctx.clip();
         ctx.globalCompositeOperation = s.blendMode;
         ctx.translate(cx + s.geoOffsetX + dx, cy + s.geoOffsetY + dy);
-        ctx.rotate(this.time * s.moveSpeed * 0.1);
+        const geoRotSpeed = s.geoRotationSpeed !== undefined ? s.geoRotationSpeed : 10;
+        ctx.rotate(this.time * geoRotSpeed * 0.1);
         ctx.scale((1 + s.geoScaleDiff / 100) * animScale, (1 + s.geoScaleDiff / 100) * animScale);
         this.drawGeometric(s.geoShape2, s.geoCount, s.geoSpacing, s.geoThickness);
         ctx.restore();
@@ -250,6 +251,8 @@ class MoireCanvas {
         ctx.globalAlpha = s.lineOpacityReveal / 100;
         ctx.globalCompositeOperation = s.blendMode;
         ctx.translate(cx + dx, cy + dy);
+        const lineRotSpeed = s.lineRotationSpeed !== undefined ? s.lineRotationSpeed : 0;
+        ctx.rotate(this.time * lineRotSpeed * 0.1);
         ctx.scale(animScale, animScale);
         const curveTime = this.time * s.lineCurveSpeed * 0.1;
         this.drawLineLayer(
@@ -301,6 +304,10 @@ class MoireCanvas {
         ctx.rect(revealCutoffX, 0, width - revealCutoffX, height);
         ctx.clip();
         ctx.globalAlpha = s.shapeRevealOpacity / 100;
+        const shapeRotSpeed = s.shapeRotationSpeed !== undefined ? s.shapeRotationSpeed : 0;
+        ctx.translate(width / 2, height / 2);
+        ctx.rotate(this.time * shapeRotSpeed * 0.1);
+        ctx.translate(-width / 2, -height / 2);
         ctx.fillStyle = s.backgroundColor;
         const revealPeriod = s.shapePeriodReveal;
         const slitWidth = s.shapeSlitWidth;
@@ -668,6 +675,7 @@ function parseSettings(container) {
         geoScaleDiff: get('geoScaleDiff', 5, 'number'),
         geoOffsetX: get('geoOffsetX', 0, 'number'),
         geoOffsetY: get('geoOffsetY', 0, 'number'),
+        geoRotationSpeed: get('geoRotationSpeed', 10, 'number'),
         // Text
         textContent: get('textContent', 'MOIRÉ'),
         textFont: get('textFont', 'Inter'),
@@ -693,6 +701,7 @@ function parseSettings(container) {
         lineCurveAmplitude: get('lineCurveAmplitude', 15, 'number'),
         lineCurveFrequency: get('lineCurveFrequency', 2, 'number'),
         lineCurveSpeed: get('lineCurveSpeed', 10, 'number'),
+        lineRotationSpeed: get('lineRotationSpeed', 0, 'number'),
         // Shape
         shapeText: get('shapeText', 'HELLO'),
         shapeFont: get('shapeFont', 'Arial Black'),
@@ -703,6 +712,7 @@ function parseSettings(container) {
         shapePeriodReveal: get('shapePeriodReveal', 9, 'number'),
         shapeSlitWidth: get('shapeSlitWidth', 2, 'number'),
         shapeRevealOpacity: get('shapeRevealOpacity', 100, 'number'),
+        shapeRotationSpeed: get('shapeRotationSpeed', 0, 'number'),
         // Movement
         movementType: get('movementType', 'rotation'),
         moveAxis: get('moveAxis', 'both'),

@@ -32,17 +32,17 @@ export default function Edit({ attributes, setAttributes }) {
         svgPattern1, svgScale1, svgRotation1, svgOpacity1, svgStrokeWidth1, svgCustom1,
         svgPattern2, svgScale2, svgRotation2, svgSpeed2, svgOpacity2, svgStrokeWidth2, svgOffsetX2, svgOffsetY2, svgCustom2,
         // Geometric settings
-        geoShape1, geoShape2, geoCount, geoThickness, geoSpacing, geoScaleDiff, geoOffsetX, geoOffsetY,
+        geoShape1, geoShape2, geoCount, geoThickness, geoSpacing, geoScaleDiff, geoOffsetX, geoOffsetY, geoRotationSpeed,
         // Text settings
         textContent, textFont, textSize, textSpacing, textRepeatX, textRepeatY,
         textOverlay, textOverlaySpacing, textOffsetX, textOffsetY, textRotationSpeed,
         // Line settings
         linePeriodBase, lineThicknessBase, lineAngleBase, lineOpacityBase,
         linePeriodReveal, lineThicknessReveal, lineAngleReveal, lineOpacityReveal,
-        lineCurveEnabled, lineCurveAmplitude, lineCurveFrequency, lineCurveSpeed,
+        lineCurveEnabled, lineCurveAmplitude, lineCurveFrequency, lineCurveSpeed, lineRotationSpeed,
         // Shape settings
         shapeText, shapeFont, shapeFontSize, shapePeriodBase, shapeCompression, shapeRepeatX,
-        shapePeriodReveal, shapeSlitWidth, shapeRevealOpacity,
+        shapePeriodReveal, shapeSlitWidth, shapeRevealOpacity, shapeRotationSpeed,
         // Movement settings
         movementType, moveAxis, swingX, swingY, moveSpeed, xyRatio,
         // Scale settings
@@ -58,14 +58,14 @@ export default function Edit({ attributes, setAttributes }) {
         mode,
         svgPattern1, svgScale1, svgRotation1, svgOpacity1, svgStrokeWidth1, svgCustom1,
         svgPattern2, svgScale2, svgRotation2, svgSpeed2, svgOpacity2, svgStrokeWidth2, svgOffsetX2, svgOffsetY2, svgCustom2,
-        geoShape1, geoShape2, geoCount, geoThickness, geoSpacing, geoScaleDiff, geoOffsetX, geoOffsetY,
+        geoShape1, geoShape2, geoCount, geoThickness, geoSpacing, geoScaleDiff, geoOffsetX, geoOffsetY, geoRotationSpeed,
         textContent, textFont, textSize, textSpacing, textRepeatX, textRepeatY,
         textOverlay, textOverlaySpacing, textOffsetX, textOffsetY, textRotationSpeed,
         linePeriodBase, lineThicknessBase, lineAngleBase, lineOpacityBase,
         linePeriodReveal, lineThicknessReveal, lineAngleReveal, lineOpacityReveal,
-        lineCurveEnabled, lineCurveAmplitude, lineCurveFrequency, lineCurveSpeed,
+        lineCurveEnabled, lineCurveAmplitude, lineCurveFrequency, lineCurveSpeed, lineRotationSpeed,
         shapeText, shapeFont, shapeFontSize, shapePeriodBase, shapeCompression, shapeRepeatX,
-        shapePeriodReveal, shapeSlitWidth, shapeRevealOpacity,
+        shapePeriodReveal, shapeSlitWidth, shapeRevealOpacity, shapeRotationSpeed,
         movementType, moveAxis, swingX, swingY, moveSpeed, xyRatio,
         scaleAnimEnabled, scaleMin, scaleMax, scaleSpeed,
         cutoffBase, cutoffReveal,
@@ -522,6 +522,14 @@ export default function Edit({ attributes, setAttributes }) {
                                 min={-100}
                                 max={100}
                             />
+                            <RangeControl
+                                label={__('Rotation Speed', 'moire-block')}
+                                value={geoRotationSpeed}
+                                onChange={(value) => setAttributes({ geoRotationSpeed: value })}
+                                min={0}
+                                max={50}
+                                step={0.1}
+                            />
                         </PanelBody>
                     </>
                 )}
@@ -701,6 +709,14 @@ export default function Edit({ attributes, setAttributes }) {
                                 max={50}
                                 step={0.1}
                             />
+                            <RangeControl
+                                label={__('Rotation Speed', 'moire-block')}
+                                value={lineRotationSpeed}
+                                onChange={(value) => setAttributes({ lineRotationSpeed: value })}
+                                min={0}
+                                max={50}
+                                step={0.1}
+                            />
                         </PanelBody>
                     </>
                 )}
@@ -770,6 +786,14 @@ export default function Edit({ attributes, setAttributes }) {
                                 onChange={(value) => setAttributes({ shapeRevealOpacity: value })}
                                 min={0}
                                 max={100}
+                            />
+                            <RangeControl
+                                label={__('Rotation Speed', 'moire-block')}
+                                value={shapeRotationSpeed}
+                                onChange={(value) => setAttributes({ shapeRotationSpeed: value })}
+                                min={0}
+                                max={50}
+                                step={0.1}
                             />
                         </PanelBody>
                     </>

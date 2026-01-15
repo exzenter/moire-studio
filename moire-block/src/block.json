@@ -128,6 +128,10 @@
             "type": "number",
             "default": 0
         },
+        "geoRotationSpeed": {
+            "type": "number",
+            "default": 10
+        },
         "textContent": {
             "type": "string",
             "default": "MOIRÉ"
@@ -220,6 +224,10 @@
             "type": "number",
             "default": 10
         },
+        "lineRotationSpeed": {
+            "type": "number",
+            "default": 0
+        },
         "shapeText": {
             "type": "string",
             "default": "HELLO"
@@ -255,6 +263,10 @@
         "shapeRevealOpacity": {
             "type": "number",
             "default": 100
+        },
+        "shapeRotationSpeed": {
+            "type": "number",
+            "default": 0
         },
         "movementType": {
             "type": "string",

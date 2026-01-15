@@ -8,17 +8,17 @@ export default function save({ attributes }) {
         svgPattern1, svgScale1, svgRotation1, svgOpacity1, svgStrokeWidth1, svgCustom1,
         svgPattern2, svgScale2, svgRotation2, svgSpeed2, svgOpacity2, svgStrokeWidth2, svgOffsetX2, svgOffsetY2, svgCustom2,
         // Geometric settings
-        geoShape1, geoShape2, geoCount, geoThickness, geoSpacing, geoScaleDiff, geoOffsetX, geoOffsetY,
+        geoShape1, geoShape2, geoCount, geoThickness, geoSpacing, geoScaleDiff, geoOffsetX, geoOffsetY, geoRotationSpeed,
         // Text settings
         textContent, textFont, textSize, textSpacing, textRepeatX, textRepeatY,
         textOverlay, textOverlaySpacing, textOffsetX, textOffsetY, textRotationSpeed,
         // Line settings
         linePeriodBase, lineThicknessBase, lineAngleBase, lineOpacityBase,
         linePeriodReveal, lineThicknessReveal, lineAngleReveal, lineOpacityReveal,
-        lineCurveEnabled, lineCurveAmplitude, lineCurveFrequency, lineCurveSpeed,
+        lineCurveEnabled, lineCurveAmplitude, lineCurveFrequency, lineCurveSpeed, lineRotationSpeed,
         // Shape settings
         shapeText, shapeFont, shapeFontSize, shapePeriodBase, shapeCompression, shapeRepeatX,
-        shapePeriodReveal, shapeSlitWidth, shapeRevealOpacity,
+        shapePeriodReveal, shapeSlitWidth, shapeRevealOpacity, shapeRotationSpeed,
         // Movement settings
         movementType, moveAxis, swingX, swingY, moveSpeed, xyRatio,
         // Scale settings
@@ -71,6 +71,7 @@ export default function save({ attributes }) {
         'data-geo-scale-diff': geoScaleDiff,
         'data-geo-offset-x': geoOffsetX,
         'data-geo-offset-y': geoOffsetY,
+        'data-geo-rotation-speed': geoRotationSpeed,
         // Text
         'data-text-content': textContent,
         'data-text-font': textFont,
@@ -96,6 +97,7 @@ export default function save({ attributes }) {
         'data-line-curve-amplitude': lineCurveAmplitude,
         'data-line-curve-frequency': lineCurveFrequency,
         'data-line-curve-speed': lineCurveSpeed,
+        'data-line-rotation-speed': lineRotationSpeed,
         // Shape
         'data-shape-text': shapeText,
         'data-shape-font': shapeFont,
@@ -106,6 +108,7 @@ export default function save({ attributes }) {
         'data-shape-period-reveal': shapePeriodReveal,
         'data-shape-slit-width': shapeSlitWidth,
         'data-shape-reveal-opacity': shapeRevealOpacity,
+        'data-shape-rotation-speed': shapeRotationSpeed,
         // Movement
         'data-movement-type': movementType,
         'data-move-axis': moveAxis,
