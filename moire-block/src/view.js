@@ -408,11 +408,13 @@ class MoireCanvas {
     }
 
     drawConcentricCircles(size) {
+        // Batched: single stroke for all circles
+        this.ctx.beginPath();
         for (let r = 10; r < size; r += 12) {
-            this.ctx.beginPath();
+            this.ctx.moveTo(r, 0);
             this.ctx.arc(0, 0, r, 0, Math.PI * 2);
-            this.ctx.stroke();
         }
+        this.ctx.stroke();
     }
 
     drawSpiral(size) {
@@ -428,37 +430,38 @@ class MoireCanvas {
     }
 
     drawRadialLines(size) {
+        // Batched: single stroke for all radial lines
+        this.ctx.beginPath();
         for (let a = 0; a < 360; a += 3) {
             const rad = a * Math.PI / 180;
-            this.ctx.beginPath();
             this.ctx.moveTo(0, 0);
             this.ctx.lineTo(Math.cos(rad) * size, Math.sin(rad) * size);
-            this.ctx.stroke();
         }
+        this.ctx.stroke();
     }
 
     drawGrid(size) {
         const step = 20;
+        // Batched: single stroke for entire grid
+        this.ctx.beginPath();
         for (let i = -size; i < size; i += step) {
-            this.ctx.beginPath();
             this.ctx.moveTo(i, -size);
             this.ctx.lineTo(i, size);
-            this.ctx.stroke();
-            this.ctx.beginPath();
             this.ctx.moveTo(-size, i);
             this.ctx.lineTo(size, i);
-            this.ctx.stroke();
         }
+        this.ctx.stroke();
     }
 
     drawHexPattern(size) {
         const r = 30;
         const h = r * Math.sqrt(3);
+        // Batched: single stroke for all hexagons
+        this.ctx.beginPath();
         for (let row = -size / h; row < size / h; row++) {
             for (let col = -size / (r * 1.5); col < size / (r * 1.5); col++) {
                 const x = col * r * 1.5;
                 const y = row * h + (col % 2 ? h / 2 : 0);
-                this.ctx.beginPath();
                 for (let i = 0; i < 6; i++) {
                     const angle = i * Math.PI / 3;
                     const px = x + r * Math.cos(angle);
@@ -467,21 +470,22 @@ class MoireCanvas {
                     else this.ctx.lineTo(px, py);
                 }
                 this.ctx.closePath();
-                this.ctx.stroke();
             }
         }
+        this.ctx.stroke();
     }
 
     drawWaves(size) {
+        // Batched: single stroke for all waves
+        this.ctx.beginPath();
         for (let y = -size; y < size; y += 15) {
-            this.ctx.beginPath();
             for (let x = -size; x < size; x += 5) {
                 const py = y + Math.sin(x * 0.05) * 20;
                 if (x === -size) this.ctx.moveTo(x, py);
                 else this.ctx.lineTo(x, py);
             }
-            this.ctx.stroke();
         }
+        this.ctx.stroke();
     }
 
     drawCheckers(size) {
@@ -518,39 +522,42 @@ class MoireCanvas {
 
         switch (type) {
             case 'circles':
+                // Batched circles
+                this.ctx.beginPath();
                 for (let i = 1; i <= count; i++) {
-                    this.ctx.beginPath();
+                    this.ctx.moveTo(i * spacing, 0);
                     this.ctx.arc(0, 0, i * spacing, 0, Math.PI * 2);
-                    this.ctx.stroke();
                 }
+                this.ctx.stroke();
                 break;
             case 'radialLines':
+                // Batched radial lines
+                this.ctx.beginPath();
                 for (let i = 0; i < count; i++) {
                     const a = (i / count) * Math.PI * 2;
-                    this.ctx.beginPath();
                     this.ctx.moveTo(0, 0);
                     this.ctx.lineTo(Math.cos(a) * size, Math.sin(a) * size);
-                    this.ctx.stroke();
                 }
+                this.ctx.stroke();
                 break;
             case 'rectangularGrid':
+                // Batched grid
+                this.ctx.beginPath();
                 for (let i = -count; i <= count; i++) {
-                    this.ctx.beginPath();
                     this.ctx.moveTo(i * spacing, -size);
                     this.ctx.lineTo(i * spacing, size);
-                    this.ctx.stroke();
-                    this.ctx.beginPath();
                     this.ctx.moveTo(-size, i * spacing);
                     this.ctx.lineTo(size, i * spacing);
-                    this.ctx.stroke();
                 }
+                this.ctx.stroke();
                 break;
             case 'hexGrid':
                 this.drawHexPattern(size);
                 break;
             case 'triangles':
+                // Batched triangles
+                this.ctx.beginPath();
                 for (let i = 1; i <= count; i++) {
-                    this.ctx.beginPath();
                     for (let j = 0; j < 3; j++) {
                         const a = (j / 3) * Math.PI * 2 - Math.PI / 2;
                         const r = i * spacing;
@@ -560,18 +567,20 @@ class MoireCanvas {
                         else this.ctx.lineTo(x, y);
                     }
                     this.ctx.closePath();
-                    this.ctx.stroke();
                 }
+                this.ctx.stroke();
                 break;
             case 'dots':
+                // Batched dots
                 this.ctx.fillStyle = this.settings.foregroundColor;
+                this.ctx.beginPath();
                 for (let y = -count; y <= count; y++) {
                     for (let x = -count; x <= count; x++) {
-                        this.ctx.beginPath();
+                        this.ctx.moveTo(x * spacing + thickness, y * spacing);
                         this.ctx.arc(x * spacing, y * spacing, thickness, 0, Math.PI * 2);
-                        this.ctx.fill();
                     }
                 }
+                this.ctx.fill();
                 break;
         }
     }
@@ -584,39 +593,42 @@ class MoireCanvas {
 
         switch (type) {
             case 'lines':
+                // Batched horizontal lines
+                ctx.beginPath();
                 for (let y = -size; y < size; y += spacing) {
-                    ctx.beginPath();
                     ctx.moveTo(-size, y);
                     ctx.lineTo(size, y);
-                    ctx.stroke();
                 }
+                ctx.stroke();
                 break;
             case 'verticalLines':
+                // Batched vertical lines
+                ctx.beginPath();
                 for (let x = -size; x < size; x += spacing) {
-                    ctx.beginPath();
                     ctx.moveTo(x, -size);
                     ctx.lineTo(x, size);
-                    ctx.stroke();
                 }
+                ctx.stroke();
                 break;
             case 'grid':
+                // Batched grid
+                ctx.beginPath();
                 for (let i = -size; i < size; i += spacing) {
-                    ctx.beginPath();
                     ctx.moveTo(i, -size);
                     ctx.lineTo(i, size);
-                    ctx.stroke();
-                    ctx.beginPath();
                     ctx.moveTo(-size, i);
                     ctx.lineTo(size, i);
-                    ctx.stroke();
                 }
+                ctx.stroke();
                 break;
             case 'circles':
+                // Batched circles
+                ctx.beginPath();
                 for (let r = spacing; r < size; r += spacing) {
-                    ctx.beginPath();
+                    ctx.moveTo(r, 0);
                     ctx.arc(0, 0, r, 0, Math.PI * 2);
-                    ctx.stroke();
                 }
+                ctx.stroke();
                 break;
             case 'text':
                 ctx.fillStyle = settings.foregroundColor;
