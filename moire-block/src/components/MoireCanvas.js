@@ -1,4 +1,9 @@
 // MoireCanvas - Canvas rendering component ported from app.js
+
+// Pre-computed constants for performance
+const DEG_TO_RAD = Math.PI / 180;
+const CURVE_STEPS = 50; // Reduced from 100 for better performance
+
 export default class MoireCanvas {
     constructor(canvas, settings) {
         this.canvas = canvas;
@@ -13,6 +18,11 @@ export default class MoireCanvas {
         this.baseLayerCache = null;
         this.baseLayerDirty = true;
         this.lastSettingsHash = '';
+
+        // Performance: Cached calculations
+        this.cachedSize = 0;
+        this.lastRenderTime = 0;
+        this.hasRenderedOnce = false;
     }
 
     updateSettings(settings) {
@@ -68,13 +78,23 @@ export default class MoireCanvas {
         // Invalidate cache on resize
         this.baseLayerDirty = true;
         this.baseLayerCache = null;
+        // Update cached size
+        this.cachedSize = Math.max(width, height);
+        this.hasRenderedOnce = false; // Force re-render after resize
     }
 
     animate() {
-        if (this.settings.animationEnabled) {
+        const shouldAnimate = this.settings.animationEnabled;
+
+        if (shouldAnimate) {
             this.time += this.settings.reverseDirection ? -0.016 : 0.016;
+            this.render();
+        } else if (!this.hasRenderedOnce) {
+            // Render once when animation is disabled, then skip
+            this.render();
+            this.hasRenderedOnce = true;
         }
-        this.render();
+        // Always schedule next frame to allow restarting animation
         this.animationId = requestAnimationFrame(() => this.animate());
     }
 
@@ -373,7 +393,7 @@ export default class MoireCanvas {
         ctx.lineWidth = thickness;
 
         const halfSize = size / 2 + 100;
-        const baseAngleRad = angle * Math.PI / 180;
+        const baseAngleRad = angle * DEG_TO_RAD;
         const numLines = Math.ceil(size * 2 / period) + 10;
         const startOffset = -numLines * period / 2;
 
@@ -382,11 +402,11 @@ export default class MoireCanvas {
             ctx.beginPath();
 
             if (curved) {
-                const steps = 100;
-                for (let s = 0; s <= steps; s++) {
-                    const x = -halfSize + (s / steps) * halfSize * 2 + offsetX;
+                // Use reduced step count for better performance
+                for (let s = 0; s <= CURVE_STEPS; s++) {
+                    const x = -halfSize + (s / CURVE_STEPS) * halfSize * 2 + offsetX;
                     const waveAngle = Math.sin((x / size) * Math.PI * curveFreq + curveTime) * curveAmp;
-                    const localAngleRad = (angle + waveAngle) * Math.PI / 180;
+                    const localAngleRad = (angle + waveAngle) * DEG_TO_RAD;
                     const y = basePos + Math.tan(localAngleRad) * x;
                     if (s === 0) ctx.moveTo(x, y);
                     else ctx.lineTo(x, y);
