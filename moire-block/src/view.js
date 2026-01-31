@@ -108,6 +108,8 @@ class MoireCanvas {
 
         this.checkCustomSvgs(); // Check if we need to load new SVG images
 
+        // Clear canvas completely first (important for transparent backgrounds)
+        ctx.clearRect(0, 0, width, height);
         ctx.fillStyle = settings.backgroundColor;
         ctx.fillRect(0, 0, width, height);
 

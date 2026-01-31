@@ -146,6 +146,8 @@ export default class MoireCanvas {
 
         this.checkCustomSvgs();
 
+        // Clear canvas completely first (important for transparent backgrounds)
+        ctx.clearRect(0, 0, width, height);
         ctx.fillStyle = settings.backgroundColor;
         ctx.fillRect(0, 0, width, height);
 
