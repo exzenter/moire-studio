@@ -901,7 +901,6 @@ export default function Edit({ attributes, setAttributes }) {
                         <ColorPicker
                             color={foregroundColor}
                             onChange={(value) => setAttributes({ foregroundColor: value })}
-                            enableAlpha={false}
                         />
                     </div>
                     <div style={{ marginBottom: '16px' }}>
@@ -909,7 +908,6 @@ export default function Edit({ attributes, setAttributes }) {
                         <ColorPicker
                             color={backgroundColor}
                             onChange={(value) => setAttributes({ backgroundColor: value })}
-                            enableAlpha={false}
                         />
                     </div>
                     <SelectControl
