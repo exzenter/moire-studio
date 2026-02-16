@@ -3,7 +3,9 @@
  * Plugin Name: Moiré Block
  * Description: A Gutenberg group block with live Moiré pattern canvas background
  * Version: 1.0.0
- * Author: Moiré Studio
+ * Plugin URI: https://exzent.de/plugins/
+ * Author: EXZENT
+ * Author URI: https://exzent.de
  * License: GPL-2.0-or-later
  * Text Domain: moire-block
  */
